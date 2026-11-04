@@ -1,0 +1,17 @@
+name: download-sdk-files
+on: [workflow_dispatch]
+jobs:
+  dl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download the 3 SDK files
+        run: |
+          mkdir -p out
+          wget -q https://dl.google.com/android/repository/platform-tools-latest-windows.zip -O out/platform-tools-latest-windows.zip
+          wget -q https://dl.google.com/android/repository/build-tools_r34-windows.zip -O out/build-tools_r34-windows.zip
+          wget -q https://dl.google.com/android/repository/platform-35_r02.zip -O out/platform-35_r02.zip \
+            || wget -q https://dl.google.com/android/repository/platform-35_r01.zip -O out/platform-35_r01.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdk-files
+          path: out/
